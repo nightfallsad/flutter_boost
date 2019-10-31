@@ -21,6 +21,7 @@ import android.view.*;
 import android.widget.*;
 import com.idlefish.flutterboost.NewFlutterBoost;
 import com.idlefish.flutterboost.Utils;
+import com.idlefish.flutterboost.XFlutterView;
 import io.flutter.Log;
 import io.flutter.embedding.android.DrawableSplashScreen;
 import io.flutter.embedding.android.FlutterView;
@@ -241,8 +242,12 @@ public class NewBoostFlutterActivity extends Activity
             window.setStatusBarColor(Color.TRANSPARENT);
             window.getDecorView().setSystemUiVisibility(PlatformPlugin.DEFAULT_SYSTEM_UI);
         }
-        Utils.setStatusBarLightMode(this,true);
 
+
+    }
+
+    protected XFlutterView getFlutterView(){
+       return delegate.getFlutterView();
     }
 
     @Override
@@ -466,23 +471,9 @@ public class NewBoostFlutterActivity extends Activity
         return true;
     }
 
-    @Override
-    public void onFirstFrameRendered() {
 
 
 
-
-
-    }
-
-
-
-    @Override
-    public void finishContainer(Map<String, Object> result) {
-        Activity activity= this.getActivity();
-
-        activity.finish();
-    }
 
     @Override
     public String getContainerUrl() {

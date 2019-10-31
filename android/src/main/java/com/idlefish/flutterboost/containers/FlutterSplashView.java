@@ -39,6 +39,8 @@ public class FlutterSplashView extends FrameLayout {
     @Nullable
     private String previousCompletedSplashIsolate;
 
+    private boolean hasRendered=false;
+
     @NonNull
     private final FlutterView.FlutterEngineAttachmentListener flutterEngineAttachmentListener = new FlutterView.FlutterEngineAttachmentListener() {
         @Override
@@ -288,6 +290,9 @@ public class FlutterSplashView extends FrameLayout {
             out.writeBundle(splashScreenState);
         }
     }
+
+
+
 
     public void onAttach() {
         Debuger.log("BoostFlutterView onAttach");

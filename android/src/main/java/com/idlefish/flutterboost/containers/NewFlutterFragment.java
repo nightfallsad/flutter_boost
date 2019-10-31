@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.idlefish.flutterboost.NewFlutterBoost;
+import com.idlefish.flutterboost.XFlutterView;
 import io.flutter.embedding.android.*;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterShellArgs;
@@ -232,20 +233,10 @@ public class NewFlutterFragment extends Fragment implements FlutterActivityAndFr
     // implementation for details about why it exists.
     private FlutterActivityAndFragmentDelegate delegate;
 
-    private final OnFirstFrameRenderedListener onFirstFrameRenderedListener = new OnFirstFrameRenderedListener() {
-        @Override
-        public void onFirstFrameRendered() {
-            // Notify our subclasses that the first frame has been rendered.
-            NewFlutterFragment.this.onFirstFrameRendered();
 
-            // Notify our owning Activity that the first frame has been rendered.
-            FragmentActivity fragmentActivity = getActivity();
-            if (fragmentActivity instanceof OnFirstFrameRenderedListener) {
-                OnFirstFrameRenderedListener activityAsListener = (OnFirstFrameRenderedListener) fragmentActivity;
-                activityAsListener.onFirstFrameRendered();
-            }
-        }
-    };
+    protected XFlutterView getFlutterView(){
+        return delegate.getFlutterView();
+    }
 
     public NewFlutterFragment() {
         // Ensure that we at least have an empty Bundle of arguments so that we don't
@@ -499,34 +490,11 @@ public class NewFlutterFragment extends Fragment implements FlutterActivityAndFr
      */
     @Override
     public boolean shouldAttachEngineToActivity() {
-        return getArguments().getBoolean(ARG_SHOULD_ATTACH_ENGINE_TO_ACTIVITY);
+        return true;
     }
 
-    /**
-     * Invoked after the {@link FlutterView} within this {@code NewFlutterFragment} renders its first
-     * frame.
-     * <p>
-     * This method forwards {@code onFirstFrameRendered()} to its attached {@code Activity}, if
-     * the attached {@code Activity} implements {@link OnFirstFrameRenderedListener}.
-     * <p>
-     * Subclasses that override this method must call through to the {@code super} method.
-     * <p>
-     * Used by this {@code NewFlutterFragment}'s {@link FlutterActivityAndFragmentDelegate.Host}
-     */
-    @Override
-    public void onFirstFrameRendered() {
-        FragmentActivity attachedActivity = getActivity();
-        if (attachedActivity instanceof OnFirstFrameRenderedListener) {
-            ((OnFirstFrameRenderedListener) attachedActivity).onFirstFrameRendered();
-        }
-    }
 
-    @Override
-    public void finishContainer(Map<String, Object> result) {
-        Activity activity = this.getActivity();
 
-        activity.finish();
-    }
 
     @Override
     public String getContainerUrl() {
